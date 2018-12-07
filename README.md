@@ -1,6 +1,8 @@
 # PullToRefreshHandler
 This QML component implements pull-to-refresh feature.
 
+![](static/example_480.gif)
+
 ## Usage: 
 Add the `PullToRefreshHandler.qml` file to your project and put PullToRefreshHandler component to your flickable element (e.g ListView):
 
