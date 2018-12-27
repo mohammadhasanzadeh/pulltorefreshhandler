@@ -19,12 +19,12 @@ Add the `PullToRefreshHandler.qml` file to your project and put PullToRefreshHan
         {
             onPulldownrelease:
             {
-				// Add your handling code here:
+                // Add your handling code here:
             }
 
             onPulluprelease:
             {
-				// Add your handling code here:
+                // Add your handling code here:
             }
         }
     }
