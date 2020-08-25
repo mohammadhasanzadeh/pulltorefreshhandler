@@ -5,7 +5,7 @@ This QML component implements pull-to-refresh feature.
 ![](static/example_480.gif)
 
 ## Swipe up hint
-![](swip_up_hint.gif)
+![](static/swip_up_hint.gif)
 
 ## Usage: 
 Add the `PullToRefreshHandler.qml` file to your project and put PullToRefreshHandler component to your flickable element (e.g ListView):
