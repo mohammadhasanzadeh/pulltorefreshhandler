@@ -5,7 +5,7 @@ Item
     id: pulltorefreshhandler
     anchors.fill: parent
 
-    property Flickable flickable: parent
+    property var flickable: parent
     property int threshold: 20
     readonly property alias is_pulldown: private_props.m_is_pulldown
     readonly property alias is_pullup: private_props.m_is_pullup
