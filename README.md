@@ -1,7 +1,11 @@
 # PullToRefreshHandler
 This QML component implements pull-to-refresh feature.
 
+## Simple
 ![](static/example_480.gif)
+
+## Swipe up hint
+![](swip_up_hint.gif)
 
 ## Usage: 
 Add the `PullToRefreshHandler.qml` file to your project and put PullToRefreshHandler component to your flickable element (e.g ListView):
@@ -41,3 +45,6 @@ Add the `PullToRefreshHandler.qml` file to your project and put PullToRefreshHan
 + `threshold`: int => The threshold of distance changes in the percentage of the parent height
 + `is_pulldown` (Readonly): bool
 + `is_pullup` (Readonly): bool 
++ `swipe_up_hint_delegate`: Component => Any QML visual item to show when the flickable is scrolled to the end.
++ `swipe_down_hint_delegate`: Component => Any QML visual item to show when the flickable is scrolled to the beginning.
++ 

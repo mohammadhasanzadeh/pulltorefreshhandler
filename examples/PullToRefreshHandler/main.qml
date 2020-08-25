@@ -81,7 +81,7 @@ ApplicationWindow
         {
             id: pulldown_handler
             property int counter: 3
-            threshold: 20
+            threshold: 40
             onPulldownrelease:
             {
                 counter++;

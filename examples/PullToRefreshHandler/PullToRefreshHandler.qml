@@ -3,11 +3,17 @@ import QtQuick 2.11
 Item
 {
     id: pulltorefreshhandler
+    anchors.fill: parent
 
-    property var flickable: parent
+    property Flickable flickable: parent
     property int threshold: 20
     readonly property alias is_pulldown: private_props.m_is_pulldown
     readonly property alias is_pullup: private_props.m_is_pullup
+    // Swipe hints properties:
+    property alias swipe_up_hint: up_hint_loader
+    property alias swipe_down_hint: down_hint_loader
+    property Component swipe_up_hint_delegate: null
+    property Component swipe_down_hint_delegate: null
 
     QtObject
     {
@@ -41,40 +47,64 @@ Item
                 private_props.y_flag = flickable.contentY;
         }
 
-        onContentYChanged:
+        onVerticalOvershootChanged:
         {
-            var changed_y_distance = Math.abs(private_props.y_flag - flickable.contentY);
-
-            if(flickable.atYBeginning)
+            if (!flickable.verticalOvershoot)
             {
-                if(changed_y_distance > private_props.m_threshold)
+                if (private_props.m_is_pullup)
                 {
-                    private_props.m_is_pulldown = true;
-                    pulltorefreshhandler.pulldown();
+                    private_props.m_is_pullup = false;
+                    pulltorefreshhandler.pulluprelease();
                 }
 
-                if (private_props.m_is_pulldown && (flickable.contentY === flickable.originY))
+                if (private_props.m_is_pulldown)
                 {
                     private_props.m_is_pulldown = false;
                     pulltorefreshhandler.pulldownrelease();
                 }
+                return;
             }
 
-            if(flickable.atYEnd)
+            if (flickable.verticalOvershoot > 0)
             {
-                if(changed_y_distance > private_props.m_threshold)
+                if (flickable.verticalOvershoot > private_props.m_threshold)
                 {
                     private_props.m_is_pullup = true;
                     pulltorefreshhandler.pullup();
                 }
-
-                if (private_props.m_is_pullup && (flickable.contentY === private_props.m_content_end))
+            }
+            else if (flickable.verticalOvershoot < 0)
+            {
+                if (Math.abs(flickable.verticalOvershoot) > private_props.m_threshold)
                 {
-                    private_props.m_is_pullup = false;
-                    pulltorefreshhandler.pulluprelease();
+                    private_props.m_is_pulldown = true;
+                    pulltorefreshhandler.pulldown();
                 }
             }
         }
     }
 
+    Loader
+    {
+        id: up_hint_loader
+        sourceComponent: (
+                             swipe_up_hint_delegate &&
+                             flickable.contentHeight &&
+                             flickable.atYEnd &&
+                             !is_pullup
+                           ) ? swipe_up_hint_delegate : undefined
+        anchors.bottom: parent.bottom
+    }
+
+    Loader
+    {
+        id: down_hint_loader
+        sourceComponent: (
+                             swipe_down_hint_delegate &&
+                             flickable.contentHeight &&
+                             flickable.atYBeginning &&
+                             !is_pulldown
+                           ) ? swipe_down_hint_delegate : undefined
+        anchors.bottom: parent.top
+    }
 }
