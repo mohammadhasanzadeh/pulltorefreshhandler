@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>PullToRefreshHandler.qml</file>
+    </qresource>
+</RCC>
