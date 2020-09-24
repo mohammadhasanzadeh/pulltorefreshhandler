@@ -21,7 +21,6 @@ Item
         property real m_content_end: (flickable.contentHeight > flickable.height) ?
                                          ((flickable.contentHeight + flickable.originY) - flickable.height) : flickable.originY;
         property int m_threshold: (threshold * flickable.height) / 100
-        property real y_flag: 0
         property bool m_is_pulldown: false
         property bool m_is_pullup: false
     }
@@ -34,18 +33,6 @@ Item
     Connections
     {
         target: flickable
-
-        onAtYBeginningChanged:
-        {
-            if(flickable.atYBeginning)
-                private_props.y_flag = flickable.contentY;
-        }
-
-        onAtYEndChanged:
-        {
-            if (flickable.atYEnd)
-                private_props.y_flag = flickable.contentY;
-        }
 
         onVerticalOvershootChanged:
         {
