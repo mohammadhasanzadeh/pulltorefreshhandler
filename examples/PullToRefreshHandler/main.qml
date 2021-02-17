@@ -71,6 +71,7 @@ ApplicationWindow
         anchors.bottom: parent.bottom
         model: test_model
         clip: true
+        boundsMovement: ListView.StopAtBounds
         delegate: ItemDelegate
         {
             text: model.text
@@ -81,7 +82,9 @@ ApplicationWindow
         {
             id: pulldown_handler
             property int counter: 3
-            threshold: 40
+            threshold: 20
+            refresh_indicator.active: is_pulling_down
+
             onPulldownrelease:
             {
                 counter++;
