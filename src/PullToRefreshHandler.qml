@@ -122,7 +122,7 @@ Item
         id: refresh_indicator_loader
         property real handler_progress: private_props.m_progress
         sourceComponent: (
-                             refresh_indicator &&
+                             refresh_indicator.active &&
                              (private_props.m_progress > 0)
                              ) ?
                              pulltorefreshhandler.refresh_indicator_delegate : undefined
