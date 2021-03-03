@@ -1,14 +1,8 @@
 # PullToRefreshHandler
 This QML component implements pull-to-refresh feature.
 
-## Simple
-![](static/example_480.gif)
-
-## Refresh indicator:
-![](static/refresh_indicator.gif)
-
-## Swipe up hint
-![](static/swip_up_hint.gif)
+## Examples:
+![Simple](static/example_480.gif) ![Refresh indicator](static/refresh_indicator.gif) ![Swipe up hint](static/swip_up_hint.gif)
 
 ## Install:
 Add the `PullToRefreshHandler.pri` to your project file (`.pro`), like the following:
