@@ -1,9 +1,7 @@
 # PullToRefreshHandler
 This QML component implements pull-to-refresh feature.
 
-## Examples:
-
-## Screenshots
+## Screenshots:
 
 | ![](static/example_480.gif) |  ![](static/refresh_indicator.gif)   | ![](static/swip_up_hint.gif) |
 | :-------------------------: | :----------------------------------: | :--------------------------: |
