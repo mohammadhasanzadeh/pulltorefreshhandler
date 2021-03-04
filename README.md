@@ -74,7 +74,7 @@ PullToRefreshHandler
     threshold: 20
     refresh_indicator_delegate: Rectangle {
         x: (pulldown_handler.width - width) / 2
-        color: Qt.rgba(255 , 0, 0, (drag_progress / 100))
+        color: Qt.rgba(1, 0, 0, (drag_progress / 100))
         width: 24
         height: 24
         radius: width / 2
