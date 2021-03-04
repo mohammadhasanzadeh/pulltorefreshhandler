@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>PullToRefreshHandler.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>SwipeUpHint.qml</file>
         <file>resources/up.svg</file>

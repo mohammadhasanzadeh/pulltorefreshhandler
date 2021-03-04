@@ -1,4 +1,6 @@
-import QtQuick 2.11
+// Version: 1.1.0
+
+import QtQuick 2.12
 
 Item
 {
@@ -9,21 +11,39 @@ Item
     property int threshold: 20
     readonly property alias is_pulldown: private_props.m_is_pulldown
     readonly property alias is_pullup: private_props.m_is_pullup
-    // Swipe hints properties:
+    readonly property alias is_pulling_down: private_props.m_is_pulling_down
+    readonly property alias is_pulling_up: private_props.m_is_pulling_up
+    readonly property alias progress: private_props.m_progress
     property alias swipe_up_hint: up_hint_loader
     property alias swipe_down_hint: down_hint_loader
+    property alias refresh_indicator: refresh_indicator_loader
+    property int indicator_drag_direction: PullToRefreshHandler.TOPTOBOTTOM
+
+    enum IndicatorDragDirection
+    {
+        TOPTOBOTTOM,
+        BOTTOMTOTOP
+    }
+
+    // Delegates properties:
     property Component swipe_up_hint_delegate: null
     property Component swipe_down_hint_delegate: null
+    property Component refresh_indicator_delegate: RefreshIndicator {}
 
     QtObject
     {
         id: private_props
-        property real m_content_end: (flickable.contentHeight > flickable.height) ?
-                                         ((flickable.contentHeight + flickable.originY) - flickable.height) : flickable.originY;
-        property int m_threshold: (threshold * flickable.height) / 100
-        property real y_flag: 0
         property bool m_is_pulldown: false
         property bool m_is_pullup: false
+        property bool m_is_pulling_down: false
+        property bool m_is_pulling_up: false
+        property int m_threshold: (threshold * flickable.height) / 100
+        property real m_progress: {
+            if (!flickable || !m_threshold)
+                return 0;
+            return (indicator_drag_direction === PullToRefreshHandler.TOPTOBOTTOM) ?
+                        (flickable.verticalOvershoot * -100) / m_threshold : (flickable.verticalOvershoot * 100) / m_threshold;
+        }
     }
 
     signal pulldown()
@@ -35,50 +55,41 @@ Item
     {
         target: flickable
 
-        onAtYBeginningChanged:
-        {
-            if(flickable.atYBeginning)
-                private_props.y_flag = flickable.contentY;
-        }
-
-        onAtYEndChanged:
-        {
-            if (flickable.atYEnd)
-                private_props.y_flag = flickable.contentY;
-        }
-
         onVerticalOvershootChanged:
         {
             if (!flickable.verticalOvershoot)
             {
-                if (private_props.m_is_pullup)
-                {
-                    private_props.m_is_pullup = false;
-                    pulltorefreshhandler.pulluprelease();
-                }
-
+                private_props.m_is_pulling_down = false;
+                private_props.m_is_pulling_up = false;
                 if (private_props.m_is_pulldown)
                 {
                     private_props.m_is_pulldown = false;
                     pulltorefreshhandler.pulldownrelease();
                 }
+                if (private_props.m_is_pullup)
+                {
+                    private_props.m_is_pullup = false;
+                    pulltorefreshhandler.pulluprelease();
+                }
                 return;
             }
 
-            if (flickable.verticalOvershoot > 0)
+            if (flickable.verticalOvershoot < 0)
             {
-                if (flickable.verticalOvershoot > private_props.m_threshold)
-                {
-                    private_props.m_is_pullup = true;
-                    pulltorefreshhandler.pullup();
-                }
-            }
-            else if (flickable.verticalOvershoot < 0)
-            {
+                private_props.m_is_pulling_down = true;
                 if (Math.abs(flickable.verticalOvershoot) > private_props.m_threshold)
                 {
                     private_props.m_is_pulldown = true;
                     pulltorefreshhandler.pulldown();
+                }
+            }
+            else if (flickable.verticalOvershoot > 0)
+            {
+                private_props.m_is_pulling_up = true;
+                if (flickable.verticalOvershoot > private_props.m_threshold)
+                {
+                    private_props.m_is_pullup = true;
+                    pulltorefreshhandler.pullup();
                 }
             }
         }
@@ -92,7 +103,7 @@ Item
                              flickable.contentHeight &&
                              flickable.atYEnd &&
                              !is_pullup
-                           ) ? swipe_up_hint_delegate : undefined
+                             ) ? swipe_up_hint_delegate : undefined
         anchors.bottom: parent.bottom
     }
 
@@ -104,7 +115,18 @@ Item
                              flickable.contentHeight &&
                              flickable.atYBeginning &&
                              !is_pulldown
-                           ) ? swipe_down_hint_delegate : undefined
+                             ) ? swipe_down_hint_delegate : undefined
         anchors.bottom: parent.top
+    }
+
+    Loader
+    {
+        id: refresh_indicator_loader
+        property real drag_progress: private_props.m_progress
+        sourceComponent: (
+                             refresh_indicator.active &&
+                             (private_props.m_progress > 0)
+                             ) ?
+                             pulltorefreshhandler.refresh_indicator_delegate : undefined
     }
 }
