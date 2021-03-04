@@ -11,7 +11,7 @@ Pane
     height: 32
     padding: 0
     x: (flickable.width - width) / 2
-    y: (handler_progress > 100) ? 100 : handler_progress
+    y: (drag_progress > 100) ? 100 : drag_progress
     Material.elevation: 2
     background: Rectangle {
         id: backgroud_rect
@@ -30,7 +30,7 @@ Pane
         asynchronous: true
         antialiasing: true
         smooth: true
-        opacity: (handler_progress < 50) ? 0.5 : 1
+        opacity: (drag_progress < 50) ? 0.5 : 1
 
         ShapePath
         {
@@ -48,16 +48,16 @@ Pane
                 radiusX: 8
                 radiusY: 8
                 startAngle: -20
-                sweepAngle: (handler_progress < 50) ? (handler_progress * 280) / 50 : 280
+                sweepAngle: (drag_progress < 50) ? (drag_progress * 280) / 50 : 280
             }
         }
 
         rotation:
         {
-             if (handler_progress >= 100)
+             if (drag_progress >= 100)
                  return rotation;
-             if (handler_progress >= 50 && handler_progress <= 100)
-                return ((handler_progress - 50) * 200) / 50;
+             if (drag_progress >= 50 && drag_progress <= 100)
+                return ((drag_progress - 50) * 200) / 50;
              return 0;
         }
     }

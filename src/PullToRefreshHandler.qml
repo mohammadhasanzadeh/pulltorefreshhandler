@@ -1,4 +1,6 @@
-import QtQuick 2.11
+// Version: 1.1.0
+
+import QtQuick 2.12
 
 Item
 {
@@ -120,7 +122,7 @@ Item
     Loader
     {
         id: refresh_indicator_loader
-        property real handler_progress: private_props.m_progress
+        property real drag_progress: private_props.m_progress
         sourceComponent: (
                              refresh_indicator.active &&
                              (private_props.m_progress > 0)
