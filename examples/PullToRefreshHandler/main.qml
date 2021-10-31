@@ -65,6 +65,7 @@ ApplicationWindow
 
     ListView
     {
+        id: listview
         anchors.top: progressbar.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -75,7 +76,7 @@ ApplicationWindow
         delegate: ItemDelegate
         {
             text: model.text
-            width: parent.width
+            width: listview.width
         }
 
         PullToRefreshHandler

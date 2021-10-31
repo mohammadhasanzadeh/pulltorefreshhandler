@@ -1,4 +1,4 @@
-// Version: 1.1.0
+// Version: 1.1.1
 
 import QtQuick 2.12
 
@@ -37,8 +37,10 @@ Item
         property bool m_is_pullup: false
         property bool m_is_pulling_down: false
         property bool m_is_pulling_up: false
-        property int m_threshold: (threshold * flickable.height) / 100
+        property int  m_threshold: (threshold * flickable.height) / 100
         property real m_progress: {
+            if (!pulltorefreshhandler.enabled)
+                return 0;
             if (!flickable || !m_threshold)
                 return 0;
             return (indicator_drag_direction === PullToRefreshHandler.TOPTOBOTTOM) ?
@@ -54,7 +56,7 @@ Item
     Connections
     {
         target: flickable
-
+        enabled: pulltorefreshhandler.enabled
         onVerticalOvershootChanged:
         {
             if (!flickable.verticalOvershoot)
@@ -99,6 +101,7 @@ Item
     {
         id: up_hint_loader
         sourceComponent: (
+                             pulltorefreshhandler.enabled &&
                              swipe_up_hint_delegate &&
                              flickable.contentHeight &&
                              flickable.atYEnd &&
@@ -111,6 +114,7 @@ Item
     {
         id: down_hint_loader
         sourceComponent: (
+                             pulltorefreshhandler.enabled &&
                              swipe_down_hint_delegate &&
                              flickable.contentHeight &&
                              flickable.atYBeginning &&
@@ -124,6 +128,7 @@ Item
         id: refresh_indicator_loader
         property real drag_progress: private_props.m_progress
         sourceComponent: (
+                             pulltorefreshhandler.enabled &&
                              refresh_indicator.active &&
                              (private_props.m_progress > 0)
                              ) ?
