@@ -36,7 +36,7 @@ Pane
         {
             id: shape_path
             strokeWidth: 2
-            strokeColor: "red"
+            strokeColor: control.Material.accent
             startX: 24
             startY: 16
             fillColor: "transparent"
