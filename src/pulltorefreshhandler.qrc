@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>PullToRefreshHandler.qml</file>
-        <file>RefreshIndicator.qml</file>
+        <file>com/melije/pulltorefresh/RefreshIndicator.qml</file>
+        <file>com/melije/pulltorefresh/PullToRefreshHandler.qml</file>
+        <file>com/melije/pulltorefresh/qmldir</file>
     </qresource>
 </RCC>
