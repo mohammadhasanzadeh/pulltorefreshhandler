@@ -1,6 +1,6 @@
 // Version: 2.0.0
 
-import QtQuick 2.15
+import QtQuick 2.12
 
 Item
 {
@@ -57,7 +57,7 @@ Item
     {
         target: control.target
         enabled: control.enabled
-        function onVerticalOvershootChanged()
+        onVerticalOvershootChanged:
         {
             if (!control.target.verticalOvershoot)
             {
