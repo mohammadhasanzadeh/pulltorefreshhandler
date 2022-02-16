@@ -1,9 +1,9 @@
 # PullToRefreshHandler
-QML module for easy to use pull-to-refresh feature in Qt Quick.
-
+QML module for easy to use the pull-to-refresh feature in Qt Quick.
 
 ## Breaking changes:
-Note that in version `2.0` some changes happened that you need to update your code, if you want to migrate to `2.0`:
+Note that in version `2.0` some changes happened that you need to update your code, if you want to migrate to version `2.0`:
+
 ```
 - All elements moved to the com.melije.pulltorefresh module.
 - Project code convention change to the camleCase for better compatibility with QML.
@@ -79,7 +79,7 @@ include(Path/to/PullToRefreshHandler.pri)
 
 ## Custom Refresh Indicator:
 Any QML visual element can use as the refresh indicator, so you can easily create your custom refresh indicator.
-When you set `refreshIndicatorDelegate` to your custom refresh indicator, `PullToRefreshHandler` will exposes the `dragProgress` and `target` variables to your component so you can represent the progress using the values of these.
+When you set `refreshIndicatorDelegate` to your custom refresh indicator, `PullToRefreshHandler` will expose the `dragProgress` and `target` variables to your component so you can represent the progress using the values of these.
 
 a simple example:
 ```
