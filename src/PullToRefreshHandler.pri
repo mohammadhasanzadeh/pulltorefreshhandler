@@ -1,4 +1,4 @@
-# Version 1.1.0
+# Version 2.2.0
 
 QT += quick
 
@@ -6,6 +6,6 @@ RESOURCES += \
     $$PWD/pulltorefreshhandler.qrc
 
 DISTFILES += \
-    $$PWD/qmldir
+    $$PWD/com/melije/pulltorefresh/qmldir
 
-
+QML_IMPORT_PATH += $$PWD \

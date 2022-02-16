@@ -1,5 +1,14 @@
 # PullToRefreshHandler
-This QML component implements pull-to-refresh feature.
+QML module for easy to use the pull-to-refresh feature in Qt Quick.
+
+## Breaking changes:
+Note that in version `2.0` some changes happened that you need to update your code, if you want to migrate to version `2.0`:
+
+```
+- All elements moved to the com.melije.pulltorefresh module.
+- Project code convention change to the camleCase for better compatibility with QML.
+- `flickable` property in `PullToRefreshHandler` renamed to `target`.
+```
 
 ## Screenshots:
 
@@ -7,14 +16,20 @@ This QML component implements pull-to-refresh feature.
 | :-------------------------: | :----------------------------------: | :--------------------------: |
 |          `Simple`           |         `Refresh indicator`          |         `Swipe up hint`      |
 
+## Requirements:
+Qt >= 5.12
+
 ## Install:
-Add the `PullToRefreshHandler.pri` to your project file (`.pro`), like the following:
+1. Add the `PullToRefreshHandler.pri` to your project file (`.pro`), like the following:
 ```
 include(Path/to/PullToRefreshHandler.pri)
 ```
+2. Add the `engine.addImportPath("qrc:/");` to the `main.cpp` file, before `engine.load()` call.
 
 ## Usage:
-Put the `PullToRefreshHandler` component on the flickable element (e.g ListView):
+1. Add `import com.melije.pulltorefresh 2.0` to your `qml` file.
+
+2. Put the `PullToRefreshHandler` component on the flickable element (e.g ListView):
 
 ```
     ListView
@@ -27,12 +42,12 @@ Put the `PullToRefreshHandler` component on the flickable element (e.g ListView)
 
         PullToRefreshHandler
         {
-            onPulldownrelease:
+            onPullDownRelease:
             {
                 // Add your handling code here:
             }
 
-            onPulluprelease:
+            onPullUpRelease:
             {
                 // Add your handling code here:
             }
@@ -41,20 +56,20 @@ Put the `PullToRefreshHandler` component on the flickable element (e.g ListView)
 ```
 
 ### Signals:
-+ signal `pulldown()`
-+ signal `pullup()`
-+ signal `pulldownrelease()`
-+ signal `pulluprelease()`
++ signal `pullDown()`
++ signal `pullUp()`
++ signal `pullDownRelease()`
++ signal `pullUpRelease()`
 
 ### Properties:
-+ `flickable`: var => Target flickable element, default is set to parent
++ `target`: Flickable => Target flickable element, default is set to parent
 + `threshold`: int => The threshold of distance changes in the percentage of the parent height
-+ `is_pulldown` (Readonly): bool
-+ `is_pullup` (Readonly): bool 
-+ `swipe_up_hint_delegate`: Component => Any QML visual item to show when the flickable is scrolled to the end.
-+ `swipe_down_hint_delegate`: Component => Any QML visual item to show when the flickable is scrolled to the beginning.
-+ `refresh_indicator_delegate`: Component => Any QML Visual item to show when the flickable is scrolled to down or up, if you do not set this delegate, the default refresh indicator (Matrerial Refresh Indicator like) will show.
-+ `indicator_drag_direction`: IndicatorDragDirection enum => `indicator_drag_direction` will specify when the `refresh_indicator` must be shown, the default value is `TOPTOBOTTOM`.
++ `isPullDown` (Readonly): bool
++ `isPullUp` (Readonly): bool
++ `swipeUpHintDelegate`: Component => Any QML visual item to show when the flickable is scrolled to the end.
++ `swipeDownHintDelegate`: Component => Any QML visual item to show when the flickable is scrolled to the beginning.
++ `refreshIndicatorDelegate`: Component => Any QML Visual item to show when the flickable is scrolled to down or up, if you do not set this delegate, the default refresh indicator (Matrerial Refresh Indicator like) will show.
++ `indicatorDragDirection`: IndicatorDragDirection enum => `indicatorDragDirection` will specify when the `refreshIndicator` must be shown, the default value is `TOPTOBOTTOM`.
 
 ### IndicatorDragDirection enums:
 |    Constant    |
@@ -64,7 +79,7 @@ Put the `PullToRefreshHandler` component on the flickable element (e.g ListView)
 
 ## Custom Refresh Indicator:
 Any QML visual element can use as the refresh indicator, so you can easily create your custom refresh indicator.
-When you set `refresh_indicator_delegate` to your custom refresh indicator, `PullToRefreshHandler` will expose the `drag_progress` variable to your component so you can represent the progress using the value of the `drag_progress`.
+When you set `refreshIndicatorDelegate` to your custom refresh indicator, `PullToRefreshHandler` will expose the `dragProgress` and `target` variables to your component so you can represent the progress using the values of these.
 
 a simple example:
 ```
@@ -72,19 +87,19 @@ PullToRefreshHandler
 {
     id: pulldown_handler
     threshold: 20
-    refresh_indicator_delegate: Rectangle {
+    refreshIndicatorDelegate: Rectangle {
         x: (pulldown_handler.width - width) / 2
-        color: Qt.rgba(1, 0, 0, (drag_progress / 100))
+        color: Qt.rgba(1, 0, 0, (dragProgress / 100))
         width: 24
         height: 24
         radius: width / 2
     }
 }
 ```
-For more complex implementation, please read the `src/RefreshIndicator.qml`.
+For more complex implementation, please read the `src/com/melije/pulltorefresh/RefreshIndicator.qml`.
 
 ## Notes:
-If you want to disable the refresh indicator you must change `refresh_indicator.active` to the false.
+If you want to disable the refresh indicator you must change `refreshIndicator.active` to the false.
 
 ## Contribution:
 Please help me to improve the quality of the project, contributions are welcome! :)

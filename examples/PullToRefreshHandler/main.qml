@@ -1,6 +1,8 @@
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
+
+import com.melije.pulltorefresh 2.0
 
 ApplicationWindow
 {
@@ -42,9 +44,9 @@ ApplicationWindow
     {
         id: help_lbl
         text: {
-                if (pulldown_handler.is_pulldown)
+                if (pulldown_handler.isPullDown)
                     return "Release to add!";
-                else if (pulldown_handler.is_pullup)
+                else if (pulldown_handler.isPullUp)
                     return "Release to remove!";
                 else
                     "Pull down to add new item and pull up for remove item.";
@@ -59,8 +61,8 @@ ApplicationWindow
         id: progressbar
         anchors.top: help_lbl.bottom
         width: parent.width
-        indeterminate: (pulldown_handler.is_pulldown || pulldown_handler.is_pullup)
-        visible: (pulldown_handler.is_pulldown || pulldown_handler.is_pullup)
+        indeterminate: (pulldown_handler.isPullDown || pulldown_handler.isPullUp)
+        visible: (pulldown_handler.isPullDown || pulldown_handler.isPullUp)
     }
 
     ListView
@@ -84,13 +86,13 @@ ApplicationWindow
             id: pulldown_handler
             property int counter: 3
             threshold: 20
-            onPulldownrelease:
+            onPullDownRelease:
             {
                 counter++;
                 test_model.append({"text": "Item: " + counter})
             }
 
-            onPulluprelease:
+            onPullUpRelease:
             {
                 if (test_model.count)
                 {

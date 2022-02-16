@@ -1,6 +1,8 @@
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
+
+import com.melije.pulltorefresh 2.0
 
 ApplicationWindow
 {
@@ -59,13 +61,14 @@ ApplicationWindow
 
     ListView
     {
+        id: listview
         anchors.fill: parent
         model: test_model
         clip: true
         delegate: Rectangle
         {
             height: 100
-            width: parent.width
+            width: listview.width
             color: model.color
             radius: 7
 
@@ -81,11 +84,11 @@ ApplicationWindow
         {
             id: pull_to_refresh_handler
             threshold: 30
-            swipe_up_hint_delegate: SwipeUpHint {}
-            swipe_up_hint.anchors.horizontalCenter: pull_to_refresh_handler.horizontalCenter
-            swipe_up_hint.active: test_model.count < test_model.max_count
+            swipeUpHintDelegate: SwipeUpHint {}
+            swipeUpHint.anchors.horizontalCenter: pull_to_refresh_handler.horizontalCenter
+            swipeUpHint.active: test_model.count < test_model.max_count
 
-            onPulluprelease:
+            onPullUpRelease:
             {
                 if (test_model.count < test_model.max_count)
                 {
