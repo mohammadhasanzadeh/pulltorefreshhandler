@@ -1,8 +1,8 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Controls.Material.impl 2.12
-import QtQuick.Shapes 1.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
+import QtQuick.Controls.Material.impl 2.15
+import QtQuick.Shapes 1.15
 
 Pane
 {
@@ -11,7 +11,7 @@ Pane
     height: 32
     padding: 0
     x: (handler.width - width) / 2
-    y: (dragProgress > 100) ? 100 : dragProgress
+    y: dragProgress > 1 ? 100 : dragProgress * 100
     Material.elevation: 2
     background: Rectangle {
         id: backgroud_rect
@@ -30,7 +30,7 @@ Pane
         asynchronous: true
         antialiasing: true
         smooth: true
-        opacity: (dragProgress < 50) ? 0.5 : 1
+        opacity: (dragProgress < 0.5) ? 0.5 : 1
 
         ShapePath
         {
@@ -48,17 +48,17 @@ Pane
                 radiusX: 8
                 radiusY: 8
                 startAngle: -20
-                sweepAngle: (dragProgress < 50) ? (dragProgress * 280) / 50 : 280
+                sweepAngle: dragProgress < 1 ? (dragProgress * 280) : 280
             }
         }
 
         rotation:
         {
-             if (dragProgress >= 100)
-                 return rotation;
-             if (dragProgress >= 50 && dragProgress <= 100)
-                return ((dragProgress - 50) * 200) / 50;
-             return 0;
+            if (dragProgress >= 1)
+                return rotation;
+            if (dragProgress >= 0.5 && dragProgress <= 1)
+               return ((dragProgress - 0.5) * 200);
+            return 0;
         }
     }
 }

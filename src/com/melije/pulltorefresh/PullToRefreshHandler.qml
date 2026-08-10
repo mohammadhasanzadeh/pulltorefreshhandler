@@ -1,6 +1,6 @@
-// Version: 2.0.0
+// Version: 3.0.0
 
-import QtQuick 2.12
+import QtQuick 2.15
 
 Item
 {
@@ -8,7 +8,7 @@ Item
     anchors.fill: parent
 
     property Flickable target: parent
-    property int threshold: 20
+    property real threshold: 0.2
     readonly property alias isPullDown: private_props.m_is_pulldown
     readonly property alias isPullUp: private_props.m_is_pullup
     readonly property alias isPullingDown: private_props.m_is_pulling_down
@@ -37,14 +37,14 @@ Item
         property bool m_is_pullup: false
         property bool m_is_pulling_down: false
         property bool m_is_pulling_up: false
-        property int  m_threshold: (threshold * target.height) / 100
+        property real  m_threshold: threshold * target.height
         property real m_progress: {
             if (!control.enabled)
                 return 0;
             if (!control.target || !m_threshold)
                 return 0;
             return (control.indicatorDragDirection === PullToRefreshHandler.TOPTOBOTTOM) ?
-                        (control.target.verticalOvershoot * -100) / m_threshold : (control.target.verticalOvershoot * 100) / m_threshold;
+                        -(control.target.verticalOvershoot / m_threshold) : control.target.verticalOvershoot / m_threshold;
         }
     }
 
@@ -57,7 +57,7 @@ Item
     {
         target: control.target
         enabled: control.enabled
-        onVerticalOvershootChanged:
+        function onVerticalOvershootChanged()
         {
             if (!control.target.verticalOvershoot)
             {
