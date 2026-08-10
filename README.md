@@ -2,7 +2,15 @@
 QML module for easy to use the pull-to-refresh feature in Qt Quick.
 
 ## Breaking changes:
-Note that in version `2.0` some changes happened that you need to update your code, if you want to migrate to version `2.0`:
+Version `3.0`:
+
+```
+- The `threshold` property range has changed from 0–100 to 0–1.
+- The `dragProgress` variable range has changed from 0–100 to 0–1.
+
+```
+
+Version `2.0`:
 
 ```
 - All elements moved to the com.melije.pulltorefresh module.
@@ -17,7 +25,7 @@ Note that in version `2.0` some changes happened that you need to update your co
 |          `Simple`           |         `Refresh indicator`          |         `Swipe up hint`      |
 
 ## Requirements:
-Qt >= 5.12
+Qt >= 5.15
 
 ## Install:
 1. Add the `PullToRefreshHandler.pri` to your project file (`.pro`), like the following:
@@ -27,7 +35,7 @@ include(Path/to/PullToRefreshHandler.pri)
 2. Add the `engine.addImportPath("qrc:/");` to the `main.cpp` file, before `engine.load()` call.
 
 ## Usage:
-1. Add `import com.melije.pulltorefresh 2.0` to your `qml` file.
+1. Add `import com.melije.pulltorefresh 3.0` to your `qml` file.
 
 2. Put the `PullToRefreshHandler` component on the flickable element (e.g ListView):
 
@@ -86,10 +94,10 @@ a simple example:
 PullToRefreshHandler
 {
     id: pulldown_handler
-    threshold: 20
+    threshold: 0.2
     refreshIndicatorDelegate: Rectangle {
         x: (pulldown_handler.width - width) / 2
-        color: Qt.rgba(1, 0, 0, (dragProgress / 100))
+        color: Qt.rgba(1, 0, 0, dragProgress)
         width: 24
         height: 24
         radius: width / 2

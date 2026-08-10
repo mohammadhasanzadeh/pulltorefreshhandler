@@ -1,8 +1,8 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
 
-import com.melije.pulltorefresh 2.0
+import com.melije.pulltorefresh 3.0
 
 ApplicationWindow
 {
@@ -83,10 +83,11 @@ ApplicationWindow
         PullToRefreshHandler
         {
             id: pull_to_refresh_handler
-            threshold: 30
+            threshold: 0.3
             swipeUpHintDelegate: SwipeUpHint {}
             swipeUpHint.anchors.horizontalCenter: pull_to_refresh_handler.horizontalCenter
             swipeUpHint.active: test_model.count < test_model.max_count
+            refreshIndicator.active: false
 
             onPullUpRelease:
             {

@@ -1,8 +1,8 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
 
-import com.melije.pulltorefresh 2.0
+import com.melije.pulltorefresh 3.0
 
 ApplicationWindow
 {
@@ -85,7 +85,7 @@ ApplicationWindow
         {
             id: pulldown_handler
             property int counter: 3
-            threshold: 20
+            threshold: 0.2
             onPullDownRelease:
             {
                 counter++;
